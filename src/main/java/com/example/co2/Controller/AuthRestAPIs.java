@@ -60,22 +60,22 @@ public class AuthRestAPIs {
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Userr> registerUser(@Validated @RequestBody Userr user1)   {
-        if(userRepository.existsByUsername(user1.getUsername())) {
+    public ResponseEntity<Userr> registerUser(@Validated @RequestBody Userr user1) {
+        if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userr>(HttpStatus.NOT_FOUND);
         }
-        if(userRepository.existsByEmail(user1.getEmail())) {
+        if (userRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Userr>(HttpStatus.BAD_REQUEST);
         }
-        Userr user = new Userr(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAdresse(),false);
+        Userr user = new Userr(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAdresse(), false);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByUserName(String.valueOf(RoleName.ROLE_USER))
+        Role userRole = roleRepository.findByUserName(String.valueOf(RoleName.ROLE_Employee))
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
         user.setValid(false);
-        Userr suser= userRepository.save(user);
-        if(suser != null ) {
+        Userr suser = userRepository.save(user);
+        if (suser != null) {
             String Newligne = System.getProperty("line.separator");
             String url = "http://localhost:4200/auth/verification/" + suser.getToken();
             String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
@@ -84,13 +84,46 @@ public class AuthRestAPIs {
                 return new ResponseEntity<Userr>(user, HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
-        }
-        else
-        {
+        } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+
+    }
+        @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
+        @PreAuthorize("hasRole('ROLE_Entreprise')")
+        public ResponseEntity<Userr> registerEntreprise(@Validated @RequestBody Userr user1)   {
+            if(userRepository.existsByUsername(user1.getUsername())) {
+                return new ResponseEntity<Userr>(HttpStatus.NOT_FOUND);
+            }
+            if(userRepository.existsByEmail(user1.getEmail())) {
+                return new ResponseEntity<Userr>(HttpStatus.BAD_REQUEST);
+            }
+            Userr user = new Userr(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAdresse(),false);
+            Set<Role> roles = new HashSet<>();
+            Role userRole = roleRepository.findByUserName(String.valueOf(RoleName.ROLE_Entreprise))
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+            roles.add(userRole);
+            user.setRoles(roles);
+            user.setValid(false);
+            Userr suser= userRepository.save(user);
+            if(suser != null ) {
+                String Newligne = System.getProperty("line.separator");
+                String url = "http://localhost:4200/auth/verification/" + suser.getToken();
+                String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
+                try {
+                    mailSending.send(user.getEmail(), "Welcome", body);
+                    return new ResponseEntity<Userr>(user, HttpStatus.OK);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+                }
+            }
+            else
+            {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
     }
 
 

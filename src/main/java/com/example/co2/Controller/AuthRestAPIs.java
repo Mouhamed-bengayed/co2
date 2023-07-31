@@ -58,8 +58,8 @@ public class AuthRestAPIs {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/signup/employee", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_Employee')")
     public ResponseEntity<Userr> registerUser(@Validated @RequestBody Userr user1) {
         if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userr>(HttpStatus.NOT_FOUND);
@@ -67,13 +67,13 @@ public class AuthRestAPIs {
         if (userRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Userr>(HttpStatus.BAD_REQUEST);
         }
-        Userr user = new Userr(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAdresse(), false);
+        Userr user = new Userr(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByUserName(String.valueOf(RoleName.ROLE_Employee))
+        Role userRole = roleRepository.findByName(RoleName.ROLE_Employee)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setValid(false);
+       // user.setValid(false);
         Userr suser = userRepository.save(user);
         if (suser != null) {
             String Newligne = System.getProperty("line.separator");
@@ -91,6 +91,7 @@ public class AuthRestAPIs {
         }
 
     }
+
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
         @PreAuthorize("hasRole('ROLE_Entreprise')")
         public ResponseEntity<Userr> registerEntreprise(@Validated @RequestBody Userr user1)   {
@@ -100,13 +101,13 @@ public class AuthRestAPIs {
             if(userRepository.existsByEmail(user1.getEmail())) {
                 return new ResponseEntity<Userr>(HttpStatus.BAD_REQUEST);
             }
-            Userr user = new Userr(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAdresse(),false);
+            Userr user = new Userr(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAddress(),false);
             Set<Role> roles = new HashSet<>();
-            Role userRole = roleRepository.findByUserName(String.valueOf(RoleName.ROLE_Entreprise))
+            Role userRole = roleRepository.findByName(RoleName.ROLE_Entreprise)
                     .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-            roles.add(userRole);
+           roles.add(userRole);
             user.setRoles(roles);
-            user.setValid(false);
+         //   user.setValid(false);
             Userr suser= userRepository.save(user);
             if(suser != null ) {
                 String Newligne = System.getProperty("line.separator");
@@ -124,7 +125,9 @@ public class AuthRestAPIs {
             {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
-    }
+
+
+    }}
 
 
 
@@ -140,4 +143,4 @@ public class AuthRestAPIs {
 
 
 
-}
+

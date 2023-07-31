@@ -16,7 +16,7 @@ public class Userr {
     private String username;
     private String email;
     private String password;
-    private String adresse;
+    private String address;
     private int number;
     private Boolean blocked;
     private boolean valid;
@@ -36,14 +36,14 @@ public class Userr {
 
 
 
-    public Userr(String name, String username, String email, String password, boolean blocked, String adresse, boolean valid) {
+    public Userr(String name, String username, String email, String password, boolean blocked, String address, boolean valid) {
 
         this.name=name;
         this.username=username;
         this.email=email;
         this.password=password;
         this.blocked=blocked;
-        this.adresse=adresse;
+        this.address = address;
         this.valid=valid;
 
     }

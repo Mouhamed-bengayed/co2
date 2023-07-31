@@ -17,7 +17,7 @@ public class BilanController {
     BilanService bilanService ;
 
     @GetMapping("/list-Bilan")
-    public List<Bilan> ListdBilan() {
+    public List<Bilan> ListBilan() {
         return bilanService.getAllBilan();
     }
 

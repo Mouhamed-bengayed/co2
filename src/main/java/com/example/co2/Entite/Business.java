@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Data
-public class Enterprise extends Userr{
+public class Business extends Userco2 {
+
 
 }

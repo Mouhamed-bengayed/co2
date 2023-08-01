@@ -5,7 +5,7 @@ import com.example.co2.Dao.UserRepository;
 
 import com.example.co2.Entite.UserPrinciple;
 
-import com.example.co2.Entite.Userr;
+import com.example.co2.Entite.Userco2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        Userr user = userRepository.findByUsername(username)
+        Userco2 user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User Not Found with -> username or email : " + username)
                 );

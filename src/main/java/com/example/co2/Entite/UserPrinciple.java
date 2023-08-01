@@ -39,7 +39,7 @@ public class UserPrinciple implements UserDetails {
         this.isVerified=isVerified;
     }
 
-    public static UserPrinciple build(Userr user) {
+    public static UserPrinciple build(Userco2 user) {
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());

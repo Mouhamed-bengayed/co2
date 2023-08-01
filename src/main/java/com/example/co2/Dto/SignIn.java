@@ -1,4 +1,4 @@
-package com.example.co2.dtos;
+package com.example.co2.Dto;
 
 import lombok.Data;
 

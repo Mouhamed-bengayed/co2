@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Data
-public class Userr {
+public class Userco2 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,8 +24,7 @@ public class Userr {
     @OneToMany(mappedBy = "user")
     private List<Solution> solutionList;
     @OneToMany(mappedBy = "user")
-    private List<Activity>activityList;
-
+    private List<Activity> activityList;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -35,19 +34,19 @@ public class Userr {
     private Set<Role> roles = new HashSet<>();
 
 
+    public Userco2(String name, String username, String email, String password, boolean blocked, String address, boolean valid) {
 
-    public Userr(String name, String username, String email, String password, boolean blocked, String address, boolean valid) {
-
-        this.name=name;
-        this.username=username;
-        this.email=email;
-        this.password=password;
-        this.blocked=blocked;
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blocked = blocked;
         this.address = address;
-        this.valid=valid;
+        this.valid = valid;
 
     }
 
-    public Userr() {
+    public Userco2() {
+
     }
 }

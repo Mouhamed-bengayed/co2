@@ -1,7 +1,7 @@
 package com.example.co2.Service;
 
 import com.example.co2.Dao.UserRepository;
-import com.example.co2.Entite.Userr;
+import com.example.co2.Entite.Userco2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +19,16 @@ public class UserService {
 
 
 
-    public List<Userr> getAllUser() {
+    public List<Userco2> getAllUser() {
         return  userRepository.findAll();
     }
 
 
-    public Userr getUserById (Long idProvider){
+    public Userco2 getUserById (Long idProvider){
         return  userRepository.findById(idProvider).orElseThrow(()-> new IllegalArgumentException("Provider ID not Found"));
     }
-    public Userr deleteUser(Long id){
-        Optional<Userr> user = userRepository.findById(id);
+    public Userco2 deleteUser(Long id){
+        Optional<Userco2> user = userRepository.findById(id);
         if(user.isPresent()){
             return user.get();
         }else
@@ -40,8 +40,8 @@ public class UserService {
 
 
     public void validInscription(Long id) {
-        Optional<Userr> user=userRepository.findById(id);
-        Userr user1=user.get();
+        Optional<Userco2> user=userRepository.findById(id);
+        Userco2 user1=user.get();
         String Newligne = System.getProperty("line.separator");
         String url = "http://localhost:4200/auth/verification/" +user1.getToken();
         String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;

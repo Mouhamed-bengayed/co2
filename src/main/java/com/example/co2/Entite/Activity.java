@@ -14,7 +14,7 @@ public class Activity {
     private Long id;
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Userr user;
+    private Userco2 user;
     @OneToMany(mappedBy = "activity")
     private List<Transport> transportList;
     @OneToMany(mappedBy = "activity")

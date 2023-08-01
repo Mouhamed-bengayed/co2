@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_ENDPOINTS={
 
-            "/api/city/add-city",
+            "/api/auth/signup/employee",
             "/api/user/list-User",
             "/api/user/validate-user/{iduser}",
             "/api/user/delete-user/{iduser}",

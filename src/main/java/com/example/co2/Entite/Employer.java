@@ -1,10 +1,12 @@
 package com.example.co2.Entite;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Employee extends Userr {
+@Data
+public class Employer extends Userco2 {
 
 
 

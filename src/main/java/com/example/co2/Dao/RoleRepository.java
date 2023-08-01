@@ -2,7 +2,7 @@ package com.example.co2.Dao;
 
 
 import com.example.co2.Entite.Role;
-import com.example.co2.dtos.RoleName;
+import com.example.co2.Dto.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.example.co2.Entite;
 
 
-import com.example.co2.dtos.RoleName;
+import com.example.co2.Dto.RoleName;
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 

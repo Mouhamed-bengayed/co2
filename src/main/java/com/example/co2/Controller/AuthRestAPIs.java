@@ -59,7 +59,6 @@ public class AuthRestAPIs {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
     @RequestMapping(value = "/signup/employee", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_Employee')")
     public ResponseEntity<Userco2> registerUser(@Validated @RequestBody Userco2 user1) {
         if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
@@ -93,7 +92,6 @@ public class AuthRestAPIs {
     }
 
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
-        @PreAuthorize("hasRole('ROLE_Entreprise')")
         public ResponseEntity<Userco2> registerEntreprise(@Validated @RequestBody Userco2 user1)   {
             if(userRepository.existsByUsername(user1.getUsername())) {
                 return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);

@@ -64,7 +64,6 @@ public class AuthRestAPIs {
     @RequestMapping(value = "/signup/employee", method = RequestMethod.POST)
     public ResponseEntity<Userco2> registerUser(@Validated @RequestBody Userco2 user1) {
        return userService.registerUser(user1);
-
     }
 
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)

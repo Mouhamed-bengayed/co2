@@ -84,7 +84,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
-        // user.setValid(false);
+        user.setValid(false);
         Userco2 suser = userRepository.save(user);
         if (suser != null) {
             String Newligne = System.getProperty("line.separator");
@@ -116,26 +116,27 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
-        //   user.setValid(false);
+        user.setValid(false);
         Userco2 suser= userRepository.save(user);
-        if(suser != null ) {
+        if(suser != null ){
             String Newligne = System.getProperty("line.separator");
             String url = "http://localhost:4200/auth/verification/" + suser.getToken();
-            String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
+            String body = "Welcom to our platform \n   :" + Newligne + url;
             try {
                 mailSending.send(user.getEmail(), "Welcome", body);
                 return new ResponseEntity<Userco2>(user, HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-            }
-        }
+                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            } }
+
         else
         {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
 
-    }
+    }}
 
-}
+
+

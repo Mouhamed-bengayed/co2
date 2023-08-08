@@ -17,6 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_ENDPOINTS={
 
             "/api/auth/signup/employee",
+            "/api/auth/signIn",
             "/api/user/list-User",
             "/api/user/validate-user/{iduser}",
             "/api/user/delete-user/{iduser}",

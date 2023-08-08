@@ -6,6 +6,7 @@ import com.example.co2.Entite.Userco2;
 import com.example.co2.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +20,12 @@ public class UserController {
 UserService userService;
 
     @GetMapping("/list-user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Userco2> ListUser() {
         return userService.getAllUser();
     }
     @PutMapping("/validate-user/{idUser}")
+    @PreAuthorize("hasRole('ROLE_ADMIN)")
     public void validInscription(@PathVariable("idUser") Long idUser) {
         userService.validInscription(idUser);
     }

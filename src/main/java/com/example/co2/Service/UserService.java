@@ -1,14 +1,25 @@
 package com.example.co2.Service;
 
+import com.example.co2.Dao.RoleRepository;
 import com.example.co2.Dao.UserRepository;
+import com.example.co2.Dto.RoleName;
+import com.example.co2.Entite.Role;
 import com.example.co2.Entite.Userco2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 public class UserService {
 
@@ -16,6 +27,10 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     MailSenderService mailSending;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    RoleRepository roleRepository;
 
 
 
@@ -55,6 +70,72 @@ public class UserService {
                 System.out.println(e.getMessage());
             }
         }
+    }
+    public ResponseEntity<Userco2> registerUser(Userco2 user1) {
+        if (userRepository.existsByUsername(user1.getUsername())) {
+            return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
+        }
+        if (userRepository.existsByEmail(user1.getEmail())) {
+            return new ResponseEntity<Userco2>(HttpStatus.BAD_REQUEST);
+        }
+        Userco2 user = new Userco2(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleName.ROLE_Employee)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);
+        user.setRoles(roles);
+        // user.setValid(false);
+        Userco2 suser = userRepository.save(user);
+        if (suser != null) {
+            String Newligne = System.getProperty("line.separator");
+            String url = "http://localhost:4200/auth/verification/" + suser.getToken();
+            String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
+            try {
+                mailSending.send(user.getEmail(), "Welcome", body);
+                return new ResponseEntity<Userco2>(user, HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    public ResponseEntity<Userco2> registerEntreprise(Userco2 user1){
+        if(userRepository.existsByUsername(user1.getUsername())) {
+            return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
+        }
+        if(userRepository.existsByEmail(user1.getEmail())) {
+            return new ResponseEntity<Userco2>(HttpStatus.BAD_REQUEST);
+        }
+        Userco2 user = new Userco2(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAddress(),false);
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleName.ROLE_Entreprise)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);
+        user.setRoles(roles);
+        //   user.setValid(false);
+        Userco2 suser= userRepository.save(user);
+        if(suser != null ) {
+            String Newligne = System.getProperty("line.separator");
+            String url = "http://localhost:4200/auth/verification/" + suser.getToken();
+            String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
+            try {
+                mailSending.send(user.getEmail(), "Welcome", body);
+                return new ResponseEntity<Userco2>(user, HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            }
+        }
+        else
+        {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 }

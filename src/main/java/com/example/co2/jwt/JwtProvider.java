@@ -15,11 +15,10 @@ public class JwtProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-   // @Value("${crypto-server.app.jwtSecret}")
+    @Value("${cryptoserver.app.jwtSecret}")
     private String jwtSecret;
 
-   // @Value("${crypto-server.app.jwtExpiration}")
-
+    @Value("${cryptoserver.app.jwtExpiration}")
     private int jwtExpiration;
 
     public String generateJwtToken(Authentication authentication) {

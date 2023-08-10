@@ -2,6 +2,7 @@ package com.example.co2.Controller;
 
 import com.example.co2.Dao.RoleRepository;
 import com.example.co2.Dao.UserRepository;
+import com.example.co2.Dto.SignIn;
 import com.example.co2.Entite.Role;
 import com.example.co2.Entite.Userco2;
 import com.example.co2.Service.MailSenderService;
@@ -52,14 +53,14 @@ public class AuthRestAPIs {
     MailSenderService mailSending;
 
     @PostMapping("/signIn")
-    public ResponseEntity<JwtResponse> authenticateUser(@RequestParam(name="username") String username, @RequestParam(name="password") String password) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody SignIn login) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username,password)
-        );
+                new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+
     }
     @RequestMapping(value = "/signup/employee", method = RequestMethod.POST)
     public ResponseEntity<Userco2> registerUser(@Validated @RequestBody Userco2 user1) {
@@ -67,7 +68,7 @@ public class AuthRestAPIs {
     }
 
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
-        public ResponseEntity<Userco2> registerEntreprise(@Validated @RequestBody Userco2 user1)   {
+        public ResponseEntity<Userco2> registerEntreprise(@Validated @RequestBody Userco2 user1){
           return userService.registerEntreprise(user1);
     }
 }

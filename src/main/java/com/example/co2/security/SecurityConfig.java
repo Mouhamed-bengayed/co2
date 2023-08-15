@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             "/api/auth/signup/employee",
             "/api/auth/signIn",
+            "/api/user/validate-user/{idUser}",
             "/api/user/list-User",
             "/api/user/validate-user/{iduser}",
             "/api/user/delete-user/{iduser}",

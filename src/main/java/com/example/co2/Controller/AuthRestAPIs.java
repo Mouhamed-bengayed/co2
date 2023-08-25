@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,6 +71,10 @@ public class AuthRestAPIs {
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
         public ResponseEntity<Userco2> registerEntreprise(@Validated @RequestBody Userco2 user1){
           return userService.registerEntreprise(user1);
+    }
+    @RequestMapping(value = "/signupadmin", method = RequestMethod.POST)
+    public ResponseEntity<Userco2> registerAdmin(@Valid @RequestBody Userco2 userco2)  {
+        return userService.registerAdmin(userco2);
     }
 }
 

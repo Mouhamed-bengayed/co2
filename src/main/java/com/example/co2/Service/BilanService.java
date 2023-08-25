@@ -1,34 +1,33 @@
 package com.example.co2.Service;
 
 import com.example.co2.Dao.BilanRepository;
+import com.example.co2.Dao.UserRepository;
 import com.example.co2.Entite.Bilan;
+import com.example.co2.Entite.Userco2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BilanService {
 
-@Autowired
-BilanRepository bilanRepository;
+    @Autowired
+    BilanRepository bilanRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
-    public Bilan addBilan(Bilan c1){
-        Bilan savedBilan=bilanRepository.save(c1);
-        return savedBilan;
-    }
-public List<Bilan> getAllBilan(){
-    bilanRepository.findAll();
-    return getAllBilan();
-}
-    public Bilan deleteBilan(Long id){
-        Optional<Bilan> bilan = bilanRepository.findById(id);
-        if(bilan.isPresent()){
-            return bilan.get();
-        }else
-        {
-            return null;
+
+
+    public  Bilan GetBilanByuser(){
+        Optional<Userco2> userco2=userService.getCurrentUser();
+        if (userco2.isPresent()) {
+            return bilanRepository.findByUserco2(userco2.get());
         }
+        return null;
     }
-
 }

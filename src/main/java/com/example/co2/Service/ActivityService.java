@@ -28,6 +28,6 @@ ActivityRepository activityRepository;
     }
     public List<Activity> gettAllActivity(){
         activityRepository.findAll();
-return gettAllActivity();
+   return gettAllActivity();
     }
 }

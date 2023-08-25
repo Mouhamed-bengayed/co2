@@ -10,25 +10,17 @@ import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
-@RequestMapping("/api/Categorie")
+@RequestMapping("/api/Bilan")
 @RestController
 public class BilanController {
     @Autowired
     BilanService bilanService ;
 
     @GetMapping("/list-Bilan")
-    public List<Bilan> ListBilan() {
-        return bilanService.getAllBilan();
+    public Bilan GetBilanByUser() {
+        return bilanService.GetBilanByuser();
     }
 
-    @DeleteMapping("/delete-Bilan/{idBilan}")
-    public void deleteBilan(@PathVariable("idBilan") Long idBilan) {
-        bilanService.deleteBilan(idBilan);
-    }
 
-    @PostMapping("/add-Bilan")
-    public Bilan addBilan(@RequestBody @Valid Bilan s1) {
-        return bilanService.addBilan(s1);
-    }
 
 }

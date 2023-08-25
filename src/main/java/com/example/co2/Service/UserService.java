@@ -9,16 +9,16 @@ import com.example.co2.Entite.Userco2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.validation.Valid;
+import java.beans.Encoder;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -136,7 +136,37 @@ public class UserService {
         }
 
 
-    }}
+    }
+    public ResponseEntity<Userco2> registerAdmin(@Valid @RequestBody Userco2 user)  {
+        if(userRepository.existsByUsername(user.getUsername())) {
+            return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
+        }
+        if(userRepository.existsByEmail(user.getEmail())) {
+            return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
+        }
+        String token = UUID.randomUUID().toString().replace("-", "");
+        Userco2 user1 = new Userco2(user.getName(),user.getUsername(),user.getEmail(),passwordEncoder.encode(user.getPassword()),false,user.getAddress(),false);
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);
+        user1.setRoles(roles);
+        userRepository.save(user1);
+        return new ResponseEntity<Userco2>(user1, HttpStatus.OK);
+    }
+
+    public Optional<Userco2> getCurrentUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+             username = ((UserDetails)principal).getUsername();
+        } else {
+             username = principal.toString();
+        }
+        return userRepository.findByUsername(username);
+    }
+
+}
 
 
 

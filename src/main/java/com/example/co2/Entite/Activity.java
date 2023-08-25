@@ -18,7 +18,7 @@ public class Activity {
     @OneToMany(mappedBy = "activity")
     private List<Transport> transportList;
     @OneToMany(mappedBy = "activity")
-    private List<Feed> feedList;
+    private List<Food> feedList;
     @OneToMany(mappedBy = "activity")
     private List<Work> workList;
     @OneToMany(mappedBy = "activity")

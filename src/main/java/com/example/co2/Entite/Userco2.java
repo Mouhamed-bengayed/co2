@@ -25,6 +25,8 @@ public class Userco2 {
     private List<Solution> solutionList;
     @OneToMany(mappedBy = "user")
     private List<Activity> activityList;
+    @OneToOne
+    private Bilan bilan;
 
 
     @ManyToMany(fetch = FetchType.LAZY)

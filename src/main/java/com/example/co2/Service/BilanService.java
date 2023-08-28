@@ -30,4 +30,7 @@ public class BilanService {
         }
         return null;
     }
+    public Double SumEmp(){
+      return GetBilanByuser().getSum_alimontation_carbo()+ GetBilanByuser().getSum_transport_carbo()+ GetBilanByuser().getSum_works_carbo();
+    }
 }

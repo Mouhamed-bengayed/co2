@@ -21,6 +21,10 @@ public class BilanController {
         return bilanService.GetBilanByuser();
     }
 
+    @GetMapping("/Sum-Emp")
+    public double Sumemp() {
+        return bilanService.SumEmp();
+    }
 
 
 }

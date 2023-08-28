@@ -33,34 +33,31 @@ public class UserService {
     RoleRepository roleRepository;
 
 
-
     public List<Userco2> getAllUser() {
-        return  userRepository.findAll();
+        return userRepository.findAll();
     }
 
 
-    public Userco2 getUserById (Long idProvider){
-        return  userRepository.findById(idProvider).orElseThrow(()-> new IllegalArgumentException("Provider ID not Found"));
+    public Userco2 getUserById(Long idUser) {
+        return userRepository.findById(idUser).orElseThrow(() -> new IllegalArgumentException("Provider ID not Found"));
     }
-    public Userco2 deleteUser(Long id){
+
+    public Userco2 deleteUser(Long id) {
         Optional<Userco2> user = userRepository.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return user.get();
-        }else
-        {
+        } else {
             return null;
         }
     }
 
-
-
     public void validInscription(Long id) {
-        Optional<Userco2> user=userRepository.findById(id);
-        Userco2 user1=user.get();
+        Optional<Userco2> user = userRepository.findById(id);
+        Userco2 user1 = user.get();
         String Newligne = System.getProperty("line.separator");
-        String url = "http://localhost:4200/auth/verification/" +user1.getToken();
+        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
         String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
-        if(user.isPresent()) {
+        if (user.isPresent()) {
 
             user1.setValid(true);
             this.userRepository.save(user1);
@@ -71,6 +68,7 @@ public class UserService {
             }
         }
     }
+
     public ResponseEntity<Userco2> registerUser(Userco2 user1) {
         if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
@@ -103,22 +101,22 @@ public class UserService {
 
     }
 
-    public ResponseEntity<Userco2> registerEntreprise(Userco2 user1){
-        if(userRepository.existsByUsername(user1.getUsername())) {
+    public ResponseEntity<Userco2> registerEntreprise(Userco2 user1) {
+        if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
         }
-        if(userRepository.existsByEmail(user1.getEmail())) {
+        if (userRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Userco2>(HttpStatus.BAD_REQUEST);
         }
-        Userco2 user = new Userco2(user1.getName(),user1.getUsername(),user1.getEmail(),passwordEncoder.encode(user1.getPassword()),false,user1.getAddress(),false);
+        Userco2 user = new Userco2(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.ROLE_Entreprise)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
         user.setValid(false);
-        Userco2 suser= userRepository.save(user);
-        if(suser != null ){
+        Userco2 suser = userRepository.save(user);
+        if (suser != null) {
             String Newligne = System.getProperty("line.separator");
             String url = "http://localhost:4200/auth/verification/" + suser.getToken();
             String body = "Welcom to our platform \n   :" + Newligne + url;
@@ -128,24 +126,23 @@ public class UserService {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-            } }
-
-        else
-        {
+            }
+        } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
 
     }
-    public ResponseEntity<Userco2> registerAdmin(@Valid @RequestBody Userco2 user)  {
-        if(userRepository.existsByUsername(user.getUsername())) {
+
+    public ResponseEntity<Userco2> registerAdmin(@Valid @RequestBody Userco2 user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
         }
-        if(userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
         }
         String token = UUID.randomUUID().toString().replace("-", "");
-        Userco2 user1 = new Userco2(user.getName(),user.getUsername(),user.getEmail(),passwordEncoder.encode(user.getPassword()),false,user.getAddress(),false);
+        Userco2 user1 = new Userco2(user.getName(), user.getUsername(), user.getEmail(), passwordEncoder.encode(user.getPassword()), false, user.getAddress(), false);
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
@@ -155,13 +152,13 @@ public class UserService {
         return new ResponseEntity<Userco2>(user1, HttpStatus.OK);
     }
 
-    public Optional<Userco2> getCurrentUser(){
+    public Optional<Userco2> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof UserDetails) {
-             username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
-             username = principal.toString();
+            username = principal.toString();
         }
         return userRepository.findByUsername(username);
     }

@@ -7,11 +7,8 @@ import com.example.co2.Dto.Works;
 import com.example.co2.Entite.Bilan;
 import com.example.co2.Entite.Userco2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-
 
 @Service
 public class WorkService {

@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/auth/signIn",
             "/api/works/sum_carbo_works",
             "/api/Bilan/list-Bilan",
+            "/api/works/sum_carbo_works",
             "/api/user/validate-user/{idUser}",
             "/api/user/list-user",
             "/api/user/validate-user/{iduser}",

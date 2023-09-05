@@ -19,14 +19,12 @@ SolutionRepository solutionRepository;
 public Solution addsolution(Solution s1) {
     Solution savesSolution=solutionRepository.save(s1);
     return savesSolution;
+
 }
-
-
     public List<Solution> getAllSolution(){
         solutionRepository.findAll();
         return getAllSolution();
     }
-
     public Solution deleteSolution(Long id){
         Optional<Solution> solution = solutionRepository.findById(id);
         if(solution.isPresent()){
@@ -36,7 +34,6 @@ public Solution addsolution(Solution s1) {
             return null;
         }
     }
-
 }
 
 

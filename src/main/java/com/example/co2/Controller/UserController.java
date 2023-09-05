@@ -2,6 +2,7 @@ package com.example.co2.Controller;
 
 
 
+import com.example.co2.Dto.RoleName;
 import com.example.co2.Entite.Userco2;
 import com.example.co2.Service.UserService;
 
@@ -30,9 +31,23 @@ UserService userService;
     public void validInscription(@PathVariable("idUser") Long idUser) {
         userService.validInscription(idUser);
     }
+
+
+    @PutMapping("/bloque-user/{idUser}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void bloqueUser(@PathVariable("idUser") Long idUser) {
+        userService.bloqueUser(idUser);
+    }
     @DeleteMapping("/delete-user/{idUser}")
     public void deleteAccount(@PathVariable("idUser") Long idUser) {
         userService.deleteUser(idUser);
     }
+
+    @GetMapping("/list-RolesName/{RolesName}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Userco2> ListUserByRoles(@PathVariable("RolesName") RoleName roleName) {
+        return userService.getUserByRoles(roleName);
+    }
+
 
 }

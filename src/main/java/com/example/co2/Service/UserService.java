@@ -42,6 +42,11 @@ public class UserService {
         return userRepository.findById(idUser).orElseThrow(() -> new IllegalArgumentException("Provider ID not Found"));
     }
 
+    public List<Userco2> getUserByRoles(RoleName roleName){
+        Role role= roleRepository.findByName(roleName).get();
+        return userRepository.findByRolesContains(role);
+    }
+
     public Userco2 deleteUser(Long id) {
         Optional<Userco2> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -63,6 +68,24 @@ public class UserService {
             this.userRepository.save(user1);
             try {
                 mailSending.send(user1.getEmail(), "Welcome Provaider", body);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void bloqueUser(Long id) {
+        Optional<Userco2> user = userRepository.findById(id);
+        Userco2 user1 = user.get();
+        String Newligne = System.getProperty("line.separator");
+        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
+        String body = "compte bloque\n  use this link to verify your account is :" + Newligne + url;
+        if (user.isPresent()) {
+
+            user1.setValid(false);
+            this.userRepository.save(user1);
+            try {
+                mailSending.send(user1.getEmail(), "bloque ", body);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

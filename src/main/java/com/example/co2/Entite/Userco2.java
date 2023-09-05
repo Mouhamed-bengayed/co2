@@ -21,6 +21,9 @@ public class Userco2 {
     private Boolean blocked;
     private boolean valid;
     private String token;
+
+    @OneToMany(mappedBy = "userco2")
+    private List<Message> message;
     @OneToMany(mappedBy = "user")
     private List<Solution> solutionList;
     @OneToMany(mappedBy = "user")

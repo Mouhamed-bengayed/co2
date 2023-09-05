@@ -1,9 +1,13 @@
 package com.example.co2.Dao;
 
 
+import com.example.co2.Dto.RoleName;
+import com.example.co2.Entite.Role;
 import com.example.co2.Entite.Userco2;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<Userco2,Long> {
@@ -12,4 +16,7 @@ public interface UserRepository extends JpaRepository<Userco2,Long> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    List<Userco2> findByRolesContains(Role role);
+
 }

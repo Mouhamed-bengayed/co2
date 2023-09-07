@@ -25,14 +25,14 @@ public class WorkService {
     public Double sum_works(Works works) {
         Optional<Userco2> userco2=userService.getCurrentUser();
         if (userco2.isPresent()) {
-            Double sum =works.getA() *0.3+works.getB()*27.3+works.getC()*16.6;
+            Double sum =works.getA()*0.3+works.getB()*27.3+works.getC()*16.6;
             Bilan b1 = new Bilan();
             b1.setUserco2(userco2.get());
             b1.setSum_works_carbo(sum);
             bilanRepository.save(b1);
             return sum;
         }
-        return null;
+        return 0.0;
 
 
     }

@@ -12,13 +12,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
-@RequestMapping("/api/Level")
+@RequestMapping("/api/food")
 @RestController
 public class FoodController {
 
     @Autowired
     FoodService foodService;
-    @PostMapping("/sum_carbo_works")
+    @PostMapping("/sum_carbo_food")
     public double calculer(@RequestBody Alimontaion alimontaion){
         return foodService.sum_alimontation(alimontaion);
 

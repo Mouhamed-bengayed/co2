@@ -12,16 +12,18 @@ import javax.mail.internet.MimeMessage;
 public class MailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
-
     public void send (String to, String subject, String body) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
         helper = new MimeMessageHelper(message, true); // true indicates
         helper.setSubject(subject);
+        helper.setFrom("mouhamed.bengaiedd@gmail.com");
+
         helper.setTo(to);
         helper.setText(body, true); // true indicates html
         // continue using helper object for more functionalities like adding attachments, etc.
 
         javaMailSender.send(message);
     }
+
 }

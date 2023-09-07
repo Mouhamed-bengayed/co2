@@ -56,23 +56,6 @@ public class UserService {
         }
     }
 
-    public void validInscription(Long id) {
-        Optional<Userco2> user = userRepository.findById(id);
-        Userco2 user1 = user.get();
-        String Newligne = System.getProperty("line.separator");
-        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
-        String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
-        if (user.isPresent()) {
-
-            user1.setValid(true);
-            this.userRepository.save(user1);
-            try {
-                mailSending.send(user1.getEmail(), "Welcome Provaider", body);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 
     public void bloqueUser(Long id) {
         Optional<Userco2> user = userRepository.findById(id);
@@ -92,6 +75,26 @@ public class UserService {
         }
     }
 
+
+    public void validInscription(Long id) {
+        Optional<Userco2> user = userRepository.findById(id);
+        Userco2 user1 = user.get();
+        String Newligne = System.getProperty("line.separator");
+        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
+        String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
+                "Voici votre code de verfication  TN1122" ;
+        if (user.isPresent()) {
+
+            user1.setValid(true);
+            this.userRepository.save(user1);
+            try {
+                mailSending.send(user1.getEmail(), "Welcome Provaider", body);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public ResponseEntity<Userco2> registerUser(Userco2 user1) {
         if (userRepository.existsByUsername(user1.getUsername())) {
             return new ResponseEntity<Userco2>(HttpStatus.NOT_FOUND);
@@ -105,12 +108,13 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setValid(false);
+        user.setValid(true);
         Userco2 suser = userRepository.save(user);
         if (suser != null) {
             String Newligne = System.getProperty("line.separator");
-            String url = "http://localhost:4200/auth/verification/" + suser.getToken();
-            String body = "Welcom to our platform \n  use this link to verify your account is :" + Newligne + url;
+            String url = "http://localhost:4200/#/verification" ;
+            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
+                    "Voici votre code de verfication  TN1122" ;
             try {
                 mailSending.send(user.getEmail(), "Welcome", body);
                 return new ResponseEntity<Userco2>(user, HttpStatus.OK);
@@ -137,12 +141,13 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         user.setRoles(roles);
-        user.setValid(false);
+        user.setValid(true);
         Userco2 suser = userRepository.save(user);
         if (suser != null) {
             String Newligne = System.getProperty("line.separator");
             String url = "http://localhost:4200/auth/verification/" + suser.getToken();
-            String body = "Welcom to our platform \n   :" + Newligne + url;
+            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
+                    "Voici votre code de verfication  TN1122" ;
             try {
                 mailSending.send(user.getEmail(), "Welcome", body);
                 return new ResponseEntity<Userco2>(user, HttpStatus.OK);
@@ -156,6 +161,8 @@ public class UserService {
 
 
     }
+
+
 
     public ResponseEntity<Userco2> registerAdmin(@Valid @RequestBody Userco2 user) {
         if (userRepository.existsByUsername(user.getUsername())) {
@@ -174,6 +181,9 @@ public class UserService {
         userRepository.save(user1);
         return new ResponseEntity<Userco2>(user1, HttpStatus.OK);
     }
+
+
+
 
     public Optional<Userco2> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

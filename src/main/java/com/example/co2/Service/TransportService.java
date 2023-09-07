@@ -34,7 +34,7 @@ public class TransportService {
             bilanRepository.save(b1);
             return sum;
         }
-        return null;
+        return 0.0;
     }
     public Double sum_transport_voiture(Transport transport) {
         Optional<Userco2> userco2=userService.getCurrentUser();
@@ -46,7 +46,7 @@ public class TransportService {
             bilanRepository.save(b1);
             return sum;
         }
-        return null;
+        return 0.0;
     }
     public Double sum_transport_vl(Transport transport) {
         Optional<Userco2> userco2=userService.getCurrentUser();
@@ -58,7 +58,7 @@ public class TransportService {
             bilanRepository.save(b1);
             return sum;
         }
-        return null;
+        return 0.0;
     }
 
 }

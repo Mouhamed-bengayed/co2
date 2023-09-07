@@ -4,9 +4,11 @@ import com.example.co2.Dto.Transport;
 import com.example.co2.Dto.Works;
 import com.example.co2.Service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
+@RequestMapping("/api/transport")
+@RestController
 public class TransportController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class TransportController {
     public double calculer_vt(@RequestBody Transport transport){
         return transportService.sum_transport_voiture(transport);
     }
-    @PostMapping("/sum_carbo_tl")
+    @PostMapping("/sum_carbo_vl")
     public double calculer_vl(@RequestBody Transport transport){
         return transportService.sum_transport_vl(transport);
     }

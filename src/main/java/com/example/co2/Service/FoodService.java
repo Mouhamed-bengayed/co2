@@ -42,7 +42,7 @@ FoodRepository foodRepository;
                 return sum;
             }
         }
-        return null;
+        return 0.0;
 
 
     }

@@ -15,4 +15,5 @@ public class Solution {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Userco2 user;
     private String description;
+    private String titre;
 }
